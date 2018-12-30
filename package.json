@@ -4,17 +4,22 @@
   "description": "Boilerplate for serving rest API via Node, includes sql support and user authentication.",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_PATH=. NODE_ENV=development nodemon"
+    "dev": "NODE_PATH=. NODE_ENV=development nodemon",
+    "setup:database" : "node cli/database.js"
   },
   "repository": "https://github.com/Unicorn-Boilerplates/node-sql-rest-passport-jwt.git",
   "author": "Nicola Bortignon <info@nicolabortignon.com>",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.4.1",
     "eslint": "^5.11.1",
     "express": "^4.16.4",
+    "figlet": "^1.2.1",
     "http-status": "^1.3.1",
+    "inquirer": "^6.2.1",
     "mysql2": "^1.6.4",
     "nodemon": "^1.18.9",
-    "sequelize": "^4.42.0"
+    "sequelize": "^4.42.0",
+    "shelljs": "^0.8.3"
   }
 }
