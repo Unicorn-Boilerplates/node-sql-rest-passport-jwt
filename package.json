@@ -1,0 +1,9 @@
+{
+  "name": "node-sql-rest-passport-jwt",
+  "version": "0.0.1",
+  "description": "Boilerplate for serving rest API via Node, includes sql support and user authentication.",
+  "main": "index.js",
+  "repository": "https://github.com/Unicorn-Boilerplates/node-sql-rest-passport-jwt.git",
+  "author": "Nicola Bortignon <info@nicolabortignon.com>",
+  "license": "MIT"
+}
