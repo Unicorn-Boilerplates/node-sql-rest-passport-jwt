@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/Unicorn-Boilerplates/node-sql-rest-passport-jwt.git",
   "author": "Nicola Bortignon <info@nicolabortignon.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "sequelize": "^4.42.0"
+  }
 }
