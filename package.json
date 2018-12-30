@@ -13,6 +13,7 @@
     "eslint": "^5.11.1",
     "express": "^4.16.4",
     "http-status": "^1.3.1",
+    "mysql2": "^1.6.4",
     "nodemon": "^1.18.9",
     "sequelize": "^4.42.0"
   }
