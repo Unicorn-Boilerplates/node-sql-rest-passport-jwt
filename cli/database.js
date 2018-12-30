@@ -5,7 +5,7 @@ const chalk = require("chalk");
 const figlet = require("figlet");
 const shell = require("shelljs");
   
-  const Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
 const init = () => {
   console.log(
@@ -60,25 +60,38 @@ const askDatabaseConnectionInfo = () => {
   return inquirer.prompt(questions);
 };
 
-const createFile = (filename, extension) => {
+const writeConfig = (settings) => {
 	shell.mkdir('-p', `${process.cwd()}/config`);
   const filePath = `${process.cwd()}/config/database.js`
   shell.touch(filePath);
-  return filePath;
-};
 
-const success = filepath => {
+	var configuration = {}
+	configuration.development = {
+    username: settings.Username,
+    password: settings.Password,
+    database: settings.DatabaseName,
+    host: settings.Host,
+    port: settings.Port,
+    dialect: settings.DatabaseType
+	};
+
+
+	const exportString = 'module.exports = ' + JSON.stringify(configuration);
+	shell.ShellString(exportString).to(filePath);
   console.log(
-    chalk.green.bold(`Database configured, configuration file available at: ${filepath}`)
+    chalk.green.bold(`Database configured, configuration file available at: ${filePath}`)
   );
+  return filePath;	
 };
 
 const checkDatabase = settings => {
+	settings.Port = settings.Port || 3306;
+	settings.DatabaseType = settings.DatabaseType || 'mysql';
 	const { DatabaseType, Host, Port, Username, Password, DatabaseName } = settings;
 	const sequelize = new Sequelize(DatabaseName, Username, Password, {
 	  host: Host,
-		port: Port || 3306,
-	  dialect: DatabaseType || 'mysql',
+		port: Port,
+	  dialect: DatabaseType,
 	  "operatorsAliases": false,
 	  logging: false
 	});
@@ -96,9 +109,8 @@ const run = async () => {
  
   // try configuration
 	checkDatabase(settings).then(() => {
-		const filePath = createFile(settings);
-		success(filePath);
-		shell.exit(1);
+		writeConfig(settings);
+		shell.exit(0);
 	}).catch(err => {
 	  console.log(chalk.red.bold('There was a problem:', err.name));
 	  console.log(chalk.white('Run again the configuration script, to start over'));
