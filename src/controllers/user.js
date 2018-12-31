@@ -1,3 +1,5 @@
+const userModel = require('./../models/user');
+
 const get_user = function(req, res) {
     res.send('NOT IMPLEMENTED: Genre detail: ' + req.params.id);
 };

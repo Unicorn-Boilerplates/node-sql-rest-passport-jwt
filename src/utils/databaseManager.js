@@ -18,27 +18,32 @@ class DatabaseManager {
 		});
   }
 
-	registerModel(name,shape){
-		var newModel = this.sequelize.define(name, shape)
-		this.models[name] = newModel;
+	registerModel(model){
+		var newModel = this.sequelize.define(model.name,model.schema)
+		//inject DB
+		console.log(model.registerDatabaseProxy)
+		model.registerDatabaseProxy(this.sequelize);
+		this.models[model.name] = newModel;
 		return newModel;
 	}
 	listModels(){
-		console.log("==== Model Name ====")
+		console.log("==== Registered Models Name ====")
 		for(const model in this.models){
-			console.log('Model Name:', model)
+			console.log('Model Name:', this.models[model].name)
 		}
 	}
 	registerRelationship(model1, model2, relationship, options, dropTableAndCreate = false){
+		console.log('register relationship ',relationship,model1.name,model2.name)
+		console.log('===')
 		this.relationships.push({model1: model1.name, model2: model2.name, relationship: relationship});
-		model1[relationship](model2, options)
-		model2.sync({force: dropTableAndCreate})
-		model1.sync({force: dropTableAndCreate})
+		this.models[model1.name][relationship](this.models[model2.name], options)
+		this.models[model2.name].sync({force: dropTableAndCreate})
+		this.models[model1.name].sync({force: dropTableAndCreate})
 		this.sequelize.sync()
 	}
 
 	listRelationships(){
-		console.log("==== Relationship ====")
+		console.log("==== Rgistered Relationships ====")
 		for(const relationship of this.relationships){
 			console.log(relationship.model1, relationship.relationship, relationship.model2);
 		}
