@@ -46,6 +46,9 @@ class DatabaseManager {
 	dropDatabase(){
 		this.sequelize.drop()
 	}
+	getModel(name){
+		return this.models[name]
+	}
 }
 
 const BELONGS_TO = 'belongsTo';
