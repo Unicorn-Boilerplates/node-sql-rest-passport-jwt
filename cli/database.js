@@ -72,7 +72,7 @@ const writeConfig = (settings) => {
     database: settings.DatabaseName,
     host: settings.Host,
     port: settings.Port,
-    dialect: settings.DatabaseType
+    dialect: settings.DatabaseType,
 	};
 
 
