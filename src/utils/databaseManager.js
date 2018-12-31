@@ -34,6 +34,7 @@ class DatabaseManager {
 		model1[relationship](model2, options)
 		model2.sync({force: dropTableAndCreate})
 		model1.sync({force: dropTableAndCreate})
+		this.sequelize.sync()
 	}
 
 	listRelationships(){
@@ -42,8 +43,12 @@ class DatabaseManager {
 			console.log(relationship.model1, relationship.relationship, relationship.model2);
 		}
 	} 
+	dropDatabase(){
+		this.sequelize.drop()
+	}
 }
 
 const BELONGS_TO = 'belongsTo';
 const HAS_MANY = 'hasMany';
-module.exports = {DatabaseManager, BELONGS_TO, HAS_MANY};
+const BELONGS_TO_MANY = 'belongsToMany'
+module.exports = {DatabaseManager, BELONGS_TO, HAS_MANY, BELONGS_TO_MANY};

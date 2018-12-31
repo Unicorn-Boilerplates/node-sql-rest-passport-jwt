@@ -7,15 +7,16 @@ const RouteManager = require('./utils/routeManager')
 const {
 	DatabaseManager, 
 	BELONGS_TO,
-	HAS_MANY
+	HAS_MANY,
+	BELONGS_TO_MANY
 }  = require('./utils/databaseManager')
 const configurationDatabase = require('../config/database')
 
 
 
 // list of model to import
-const user = require('./models/user')
-const project = require('./models/project')
+const {user,project} = require('./models')
+
 
 
 // TODO switch to development or production based on Env
@@ -33,8 +34,10 @@ https.createServer(app).listen(443);
 // Setup all the models
 var userdb = databaseManager.registerModel(user.modelName, user.shape)
 var projectdb = databaseManager.registerModel(project.modelName, project.shape)
-
-databaseManager.registerRelationship(projectdb,userdb,HAS_MANY, null, false);
+databaseManager.dropDatabase()
+databaseManager.registerRelationship(projectdb,userdb,HAS_MANY, null, true);
+databaseManager.registerRelationship(projectdb,userdb,BELONGS_TO_MANY, {through: 'UserProject'}, false);
+databaseManager.registerRelationship(userdb,projectdb,BELONGS_TO_MANY, {through: 'UserProject'}, false);
 databaseManager.listRelationships();
 // Setup all the routes
 routeManager.addRoute(app,'get','/test', function (req, res) {
