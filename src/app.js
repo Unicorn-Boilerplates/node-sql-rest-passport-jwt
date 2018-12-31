@@ -12,6 +12,9 @@ const {
 }  = require('./utils/databaseManager')
 const configurationDatabase = require('../config/database')
 
+// controllers
+
+var user_controller = require('./controllers/user');
 
 
 // list of model to import
@@ -21,13 +24,6 @@ const models = require('./models')
 // TODO switch to development or production based on Env
 const databaseManager = new DatabaseManager(configurationDatabase.development); 
 const routeManager = new RouteManager();
-
-
-
-
-// Setup the Http(s) server for the app.
-http.createServer(app).listen(80);
-https.createServer(app).listen(443);
 
 
 // Setup all the models
@@ -49,12 +45,23 @@ routeManager.addRoute(app,'get','/test2', function (req, res) {
   res.send('test2')
 })
 
+console.log(user_controller)
+routeManager.addRoute(app,'get','/users', user_controller.get_users)
+routeManager.addRoute(app,'get','/user:id', user_controller.get_user)
+
+
 
 
 
 // debug all the register models and routes
 databaseManager.listModels()
 routeManager.listRoutes()
+
+
+
+// Setup the Http(s) server for the app.
+http.createServer(app).listen(80);
+https.createServer(app).listen(443);
 
 
 module.exports = app;

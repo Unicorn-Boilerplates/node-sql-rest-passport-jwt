@@ -1,6 +1,4 @@
 const Sequelize = require('sequelize');
-
-console.log('loaded user')
 const User = {
 	modelName: 'user',
 	shape: {
@@ -12,5 +10,4 @@ const User = {
 	  }
 	}
 };
-
 module.exports = User
