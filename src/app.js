@@ -45,11 +45,9 @@ routeManager.addRoute(app,'get','/test2', function (req, res) {
   res.send('test2')
 })
 
-console.log(user_controller)
+
 routeManager.addRoute(app,'get','/users', user_controller.get_users)
 routeManager.addRoute(app,'get','/user:id', user_controller.get_user)
-
-
 
 
 
@@ -57,6 +55,24 @@ routeManager.addRoute(app,'get','/user:id', user_controller.get_user)
 databaseManager.listModels()
 routeManager.listRoutes()
 
+
+// Setup error handling
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+// no stacktraces leaked to user unless in development environment
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: (app.get('env') === 'development') ? err : {}
+  });
+});
 
 
 // Setup the Http(s) server for the app.
