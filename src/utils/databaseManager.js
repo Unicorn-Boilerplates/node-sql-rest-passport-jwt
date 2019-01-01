@@ -22,7 +22,7 @@ class DatabaseManager {
 		var newModel = this.sequelize.define(model.name,model.schema)
 		//inject DB
 		console.log(model.registerDatabaseProxy)
-		model.registerDatabaseProxy(this.sequelize);
+		model.registerDatabaseModel(newModel);
 		this.models[model.name] = newModel;
 		return newModel;
 	}

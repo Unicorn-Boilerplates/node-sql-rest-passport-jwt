@@ -8,7 +8,6 @@ const configurationDatabase = require('../../config/database')
 const models = []
 const databaseManager = new DatabaseManager(configurationDatabase.development); 
 
-
 require('fs').readdirSync(__dirname + '/').forEach(function(file) {
   if (file.match(/\.js$/) !== null && file !== 'index.js') {
     var name = file.replace('.js', '');
