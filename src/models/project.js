@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 let db = null;
-
+function registerDatabaseModel(model){
+	db = model;
+} 
 
 const name = 'project';
 const schema = {
@@ -9,13 +11,10 @@ const schema = {
 	  }
 	};
 
-function registerDatabaseProxy(sequelize){
-	console.log('Register db for model' + name);
-	db = sequelize;
-} 
+
 const Project = {
 	name,
 	schema,
-	registerDatabaseProxy
+	registerDatabaseModel
 }
 module.exports = Project

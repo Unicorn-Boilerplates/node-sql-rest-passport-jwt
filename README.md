@@ -5,9 +5,9 @@ Technology Stack:
 
 - [x] Node (Server)
 - [ ] Nginx (Serving)
-- [ ] Express (API serving)
+- [x] Express (API serving)
 - [ ] HTTP-status (Handling API error)
-- [ ] Sequelize (ORM for SQL/Postgress)
+- [x] Sequelize (ORM for SQL/Postgress)
 - [ ] Passport (Authentication)
 - [ ] Jwt (Authentication interface)
 - [x] EsLint (Code convention)
