@@ -21,7 +21,7 @@ class DatabaseManager {
   registerModel(model) {
     const newModel = this.sequelize.define(model.name, model.schema);
     // inject DB
-    console.log('di on db', model, model.name);
+    console.log('di on db', model.name);
     console.log(model.registerDatabaseModel);
     model.registerDatabaseModel(newModel);
     this.models[model.name] = newModel;
@@ -54,6 +54,10 @@ class DatabaseManager {
 
   dropDatabase() {
     this.sequelize.drop();
+  }
+
+  sync() {
+    this.sequelize.sync();
   }
 
   getModel(name) {
