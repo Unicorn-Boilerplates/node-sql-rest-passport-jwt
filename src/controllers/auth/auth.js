@@ -18,3 +18,9 @@ exports.logout = function (req, res) {
     res.redirect('/signup');
   });
 };
+
+
+exports.isLoggedIn = function (req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect('/signin');
+};

@@ -1,10 +1,8 @@
-
+// This file is for configuring passport signup / signin strategy
 // load bcrypt
 const bCrypt = require('bcrypt-nodejs');
 
 module.exports = function (passport, user) {
-  console.log('IMPORT USER');
-  console.log(user);
   const User = user;
   const LocalStrategy = require('passport-local').Strategy;
 
