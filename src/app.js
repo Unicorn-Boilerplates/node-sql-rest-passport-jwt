@@ -42,28 +42,21 @@ routeManager.listRoutes();
 
 
 // ROUTES for auth
-const authController = require('./controllers/auth');
+const authController = require('./controllers/auth/auth');
+const passportLocalController = require('./controllers/auth/passportLocal');
 
-app.get('/signup', authController.signup);
-app.get('/signin', authController.signin);
-app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect: '/dashboard',
-  failureRedirect: '/signup',
-}));
-app.get('/dashboard', isLoggedIn, authController.dashboard);
-app.get('/logout', authController.logout);
-app.post('/signin', passport.authenticate('local-signin', {
-  successRedirect: '/dashboard',
-  failureRedirect: '/signin',
-}));
+routeManager.addRoute(app, 'get', '/signup', authController.signup);
+routeManager.addRoute(app, 'post', '/signup', passportLocalController.localSignUp);
+
+routeManager.addRoute(app, 'get', '/signin', authController.signin);
+routeManager.addRoute(app, 'post', '/signin', passportLocalController.localSignIn);
+routeManager.addRoute(app, 'get', '/dashboard', authController.isLoggedIn, authController.dashboard);
+
+routeManager.addRoute(app, 'get', '/logout', authController.logout);
+
 
 require('./../config/passport.js')(passport, models.user.getDatabaseModel());
 
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next();
-
-  res.redirect('/signin');
-}
 
 app.use(require('serve-static')(`${__dirname}/../../public`));
 app.use(require('cookie-parser')());

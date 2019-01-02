@@ -3,13 +3,16 @@ class RouteManager {
     this.routes = [];
   }
 
-  addRoute(server, method, route, controller) {
-    server[method](route, controller);
-    this.routes.push({
-      method,
-      route,
-      controller,
-    });
+  addRoute(server, method, route, ...controllers) {
+    console.log('Add route with controller', route, controllers);
+    server[method](route, ...controllers);
+    for (const controller of controllers) {
+      this.routes.push({
+        method,
+        route,
+        controller,
+      });
+    }
   }
 
   listRoutes() {
