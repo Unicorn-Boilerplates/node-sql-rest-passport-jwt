@@ -63,3 +63,4 @@ yarn.lock
 config/database.js
 yarn.lock
 .DS_Store
+config/secret.js
