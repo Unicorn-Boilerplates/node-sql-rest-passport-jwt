@@ -1,7 +1,7 @@
 # node-sql-rest-passport-jwt
 Boilerplate for serving rest API via Node, includes sql support and user authentication.
 
-##Technology Stack:
+## Technology Stack:
 
 - [x] Node (Server)
 - [ ] Nginx (Serving)
@@ -16,7 +16,7 @@ Boilerplate for serving rest API via Node, includes sql support and user authent
 - [x] Nodemon (Development productivity)
 - [ ] PM2 (Production serving)
 
-##Setup
+## Setup
 
 Create secret.js file in /config folder.
 
@@ -28,7 +28,7 @@ module.exports = {
 };
 
 
-##Authentication Routes:
+## Authentication Routes:
 
 /signup
 /signin
