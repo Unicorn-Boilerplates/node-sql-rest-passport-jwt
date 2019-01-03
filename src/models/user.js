@@ -18,15 +18,16 @@ const schema = {
     primaryKey: true,
     type: Sequelize.INTEGER,
   },
-
+  instagram_id: {
+    type: Sequelize.INTEGER,
+  },
   firstname: {
     type: Sequelize.STRING,
-    notEmpty: true,
+    //    notEmpty: true,
   },
-
   lastname: {
     type: Sequelize.STRING,
-    notEmpty: true,
+    //    notEmpty: true,
   },
 
   username: {
@@ -46,7 +47,11 @@ const schema = {
 
   password: {
     type: Sequelize.STRING,
-    allowNull: false,
+    //    allowNull: false,
+  },
+  instagram_access_token: {
+    type: Sequelize.STRING,
+    //    allowNull: false,
   },
 
   last_login: {
