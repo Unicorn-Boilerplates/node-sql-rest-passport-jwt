@@ -21,12 +21,12 @@ Boilerplate for serving rest API via Node, includes sql support and user authent
 Create secret.js file in /config folder.
 
 The file should contain:
-
+```javascript
 module.exports = {
   INSTAGRAM_CLIENT_ID: '--your-client-id-for-instagram--',
   INSTAGRAM_CLIENT_SECRET: '--your-client-secret-for-instagram--',
 };
-
+```
 
 ## Authentication Routes:
 
