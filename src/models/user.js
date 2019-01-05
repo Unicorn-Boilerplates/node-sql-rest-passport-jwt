@@ -19,7 +19,10 @@ const schema = {
     type: Sequelize.INTEGER,
   },
   instagram_id: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
+  },
+  facebook_id: {
+    type: Sequelize.STRING,
   },
   firstname: {
     type: Sequelize.STRING,
@@ -53,7 +56,10 @@ const schema = {
     type: Sequelize.STRING,
     //    allowNull: false,
   },
-
+  facebook_access_token: {
+    type: Sequelize.STRING,
+    //    allowNull: false,
+  },
   last_login: {
     type: Sequelize.DATE,
   },
