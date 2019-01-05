@@ -4,7 +4,7 @@
   "description": "Boilerplate for serving rest API via Node, includes sql support and user authentication.",
   "main": "index.js",
   "scripts": {
-    "prod": "./node_modules/pm2/bin/pm2 start src/app.js -f -i max",
+    "prod": "HTTP_PORT=8080 HTTPS_PORT=8081 ./node_modules/pm2/bin/pm2 start src/app.js -f -i max",
     "monitor": "./node_modules/pm2/bin/pm2 monit",
     "pm2": "./node_modules/pm2/bin/pm2",
     "lint": "./node_modules/eslint/bin/eslint.js src",

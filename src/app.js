@@ -109,8 +109,8 @@ app.use((req, res, next) => {
 
 
 // Setup the Http(s) server for the app.
-http.createServer(app).listen(80);
-https.createServer(app).listen(443);
+http.createServer(app).listen(process.env.HTTP_PORT);
+https.createServer(app).listen(process.env.HTTPS_PORT);
 
 
 module.exports = app;
