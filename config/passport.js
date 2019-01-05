@@ -116,6 +116,7 @@ module.exports = function (passport, user) {
   },
   ((accessToken, refreshToken, profile, done) => {
     // asynchronous verification, for effect...
+
     User.findOne({ where: { instagram_id: profile.id } }).then((user) => {
       if (user) {
         // Update access token
@@ -176,6 +177,12 @@ module.exports = function (passport, user) {
             return done(null, false, { message: 'Something went wrong with your Instagram auth' });
           }
           if (newUser) {
+            console.log('couldnt create the new user');
+            return done(null, false, { message: 'Something went wrong with your Instagram auth' });
+          }
+
+          if (newUser) {
+            console.log('New USer');
             return done(null, newUser);
           }
         });

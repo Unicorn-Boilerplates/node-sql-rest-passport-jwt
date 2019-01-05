@@ -53,6 +53,7 @@ routeManager.addRoute(app, 'get', '/logout', authController.logout);
 //   request.  The first step in Instagram authentication will involve
 //   redirecting the user to instagram.com.  After authorization, Instagram
 //   will redirect the user back to this application at /auth/instagram/callback
+
 routeManager.addRoute(app, 'get', '/auth/instagram', passportInstagramController.instagramSignUp);
 
 // GET /auth/instagram/callback
@@ -60,6 +61,7 @@ routeManager.addRoute(app, 'get', '/auth/instagram', passportInstagramController
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
+
 routeManager.addRoute(app, 'get', '/auth/instagram/callback',
   passportInstagramController.instagramCallback,
   passportInstagramController.redirectAfterSignup);
@@ -77,7 +79,6 @@ app.get('/auth/facebook/callback',
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'));
-
 
 // debug all the register models and routes
 routeManager.listRoutes();
