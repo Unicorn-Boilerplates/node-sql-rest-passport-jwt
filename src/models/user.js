@@ -19,6 +19,11 @@ const schema = {
     type: Sequelize.INTEGER,
   },
   instagram_id: {
+
+    type: Sequelize.STRING,
+  },
+  facebook_id: {
+
     type: Sequelize.INTEGER,
   },
   firstname: {
@@ -53,7 +58,10 @@ const schema = {
     type: Sequelize.STRING,
     //    allowNull: false,
   },
-
+  facebook_access_token: {
+    type: Sequelize.STRING,
+    //    allowNull: false,
+  },
   last_login: {
     type: Sequelize.DATE,
   },
@@ -62,8 +70,6 @@ const schema = {
     type: Sequelize.ENUM('active', 'inactive'),
     defaultValue: 'active',
   },
-
-
 };
 
 // Access and Editors

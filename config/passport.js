@@ -7,7 +7,7 @@ module.exports = function (passport, user) {
   const User = user;
   const LocalStrategy = require('passport-local').Strategy;
   const InstagramStrategy = require('passport-instagram').Strategy;
-
+  const FacebookStrategy = require('@passport-next/passport-facebook').Strategy;
 
   passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -116,11 +116,10 @@ module.exports = function (passport, user) {
   },
   ((accessToken, refreshToken, profile, done) => {
     // asynchronous verification, for effect...
-    console.log(accessToken, refreshToken, profile);
+
     User.findOne({ where: { instagram_id: profile.id } }).then((user) => {
       if (user) {
         // Update access token
-        console.log('user exists');
         user.update({
           instagram_access_token: accessToken,
         }).then(updatedUser => done(null, updatedUser.get()));
@@ -134,6 +133,50 @@ module.exports = function (passport, user) {
 
         User.create(newUserdata).then((newUser, created) => {
           if (!newUser) {
+            return done(null, false, { message: 'Something went wrong with your Instagram auth' });
+          }
+          if (newUser) {
+            return done(null, newUser);
+          }
+        });
+      }
+    });
+  })));
+  // Use the FacebookStrategy within Passport.
+  // The Facebook authentication strategy authenticates users using a Facebook account and OAuth 2.0 tokens.
+  // The app ID and secret obtained when creating an application are supplied as options when creating the strategy.
+  // The strategy also requires a verify callback, which receives the access token and optional refresh token,
+  // as well as profile which contains the authenticated user's Facebook profile. The verify callback must call
+  // cb providing a user to complete authentication.
+  passport.use(new FacebookStrategy({
+    clientID: secrets.FACEBOOK_APP_ID,
+    clientSecret: secrets.FACEBOOK_APP_SECRET,
+    callbackURL: 'http://localhost/auth/facebook/callback',
+    graphApiVersion: 'v3.2',
+    enableProof: true,
+  },
+  ((accessToken, refreshToken, profile, done) => {
+    console.log(profile, accessToken, refreshToken);
+    User.findOne({ where: { facebook_id: profile.id } }).then((user) => {
+      if (user) {
+        console.log(user);
+        // Update access token
+        user.update({
+          facebook_access_token: accessToken,
+        }).then(updatedUser => done(null, updatedUser.get()));
+      } else {
+        const newUserdata = {
+          facebook_id: profile.id,
+          facebook_access_token: accessToken,
+          username: profile.displayName,
+        };
+
+
+        User.create(newUserdata).then((newUser, created) => {
+          if (!newUser) {
+            return done(null, false, { message: 'Something went wrong with your Instagram auth' });
+          }
+          if (newUser) {
             console.log('couldnt create the new user');
             return done(null, false, { message: 'Something went wrong with your Instagram auth' });
           }
