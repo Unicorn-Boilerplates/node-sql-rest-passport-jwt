@@ -8,7 +8,9 @@ Boilerplate for serving rest API via Node, includes sql support and user authent
 - [x] Express (API serving)
 - [ ] HTTP-status (Handling API error)
 - [x] Sequelize (ORM for SQL/Postgress)
-- [ ] Passport (Authentication)
+- [x] Passport Local Authentication
+- [x] Facebook Authentication
+- [x] Instagram Authentication
 - [ ] Jwt (Authentication interface)
 - [x] EsLint (Code convention)
 - [ ] Log4j (Logging)
