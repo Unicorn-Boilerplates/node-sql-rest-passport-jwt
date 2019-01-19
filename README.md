@@ -39,20 +39,20 @@ module.exports = {
 
 ## Authentication Routes:
 
-
+```
 /signup
-
+```
 Uses normal username and password authentication method
-
+```
 /signin
-
+```
 Uses normal username and password to sign in
 
-
+```
 /auth/instagram
-
+```
 Uses instagram OAuth to signup and/or signin
-
+```
 auth/facebook/
-
+```
 Uses facebook OAuth to signup and/or signin
