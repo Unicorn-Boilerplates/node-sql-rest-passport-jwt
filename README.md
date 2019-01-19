@@ -1,7 +1,7 @@
 # node-sql-rest-passport-jwt
 Boilerplate for serving rest API via Node, includes sql support and user authentication.
 
-##Technology Stack:
+## Technology Stack:
 
 
 - [x] Node (Server)
@@ -41,5 +41,18 @@ module.exports = {
 
 
 /signup
+
+Uses normal username and password authentication method
+
 /signin
+
+Uses normal username and password to sign in
+
+
 /auth/instagram
+
+Uses instagram OAuth to signup and/or signin
+
+auth/facebook/
+
+Uses facebook OAuth to signup and/or signin
