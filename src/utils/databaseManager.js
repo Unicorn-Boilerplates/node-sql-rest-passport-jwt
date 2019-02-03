@@ -22,7 +22,6 @@ class DatabaseManager {
     const newModel = this.sequelize.define(model.name, model.schema);
     // inject DB
     console.log('di on db', model.name);
-    console.log(model.registerDatabaseModel);
     model.registerDatabaseModel(newModel);
     this.models[model.name] = newModel;
     return newModel;

@@ -30,6 +30,7 @@ const user_controller = require('./controllers/user');
 const authController = require('./controllers/auth/auth');
 const passportLocalController = require('./controllers/auth/passportLocal');
 const passportInstagramController = require('./controllers/auth/instagram');
+const passportFacebookController = require('./controllers/auth/facebook');
 
 
 // TODO switch to development or production based on Env
@@ -62,23 +63,31 @@ routeManager.addRoute(app, 'get', '/auth/instagram', passportInstagramController
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 
+
 routeManager.addRoute(app, 'get', '/auth/instagram/callback',
   passportInstagramController.instagramCallback,
   passportInstagramController.redirectAfterSignup);
 
 
 // Facebook auth routes
+// GET /auth/facebook
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Facebook authentication will involve
+//   redirecting the user to Facebook.com.  After authorization, Facebook
+//   will redirect the user back to this application at /auth/facebook/callback
 
+routeManager.addRoute(app, 'get', '/auth/facebook', passportFacebookController.facebookSignUp);
 
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/signin' }),
-  (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect('/dashboard');
-  });
+// GET /auth/facebook/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook'));
+routeManager.addRoute(app, 'get', '/auth/facebook/callback',
+  passportFacebookController.facebookCallback,
+  passportFacebookController.redirectAfterSignup);
+
 
 // debug all the register models and routes
 routeManager.listRoutes();
@@ -109,6 +118,7 @@ app.use((req, res, next) => {
 
 
 // Setup the Http(s) server for the app.
+console.log(process.env.HTTP_PORT, process.env.HTTPS_PORT);
 http.createServer(app).listen(process.env.HTTP_PORT);
 https.createServer(app).listen(process.env.HTTPS_PORT);
 

@@ -8,7 +8,7 @@
     "monitor": "./node_modules/pm2/bin/pm2 monit",
     "pm2": "./node_modules/pm2/bin/pm2",
     "lint": "./node_modules/eslint/bin/eslint.js src",
-    "dev": "NODE_PATH=. NODE_ENV=development nodemon",
+    "dev": "HTTP_PORT=80 HTTPS_PORT=8081 NODE_PATH=. NODE_ENV=development nodemon",
     "setup:database": "node cli/database.js"
   },
   "repository": "https://github.com/Unicorn-Boilerplates/node-sql-rest-passport-jwt.git",
@@ -24,6 +24,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "http-status": "^1.3.1",
+    "jwt-simple": "^0.5.5",
     "mysql2": "^1.6.4",
     "nodemon": "^1.18.9",
     "passport": "^0.4.0",

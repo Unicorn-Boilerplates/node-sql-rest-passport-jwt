@@ -1,7 +1,9 @@
 // This file is for configuring passport signup / signin strategy
 // load bcrypt
 const bCrypt = require('bcrypt-nodejs');
+const jwt = require('jwt-simple');
 const secrets = require('./secret');
+
 
 module.exports = function (passport, user) {
   const User = user;
@@ -116,13 +118,17 @@ module.exports = function (passport, user) {
   },
   ((accessToken, refreshToken, profile, done) => {
     // asynchronous verification, for effect...
-
+    console.log(accessToken, profile);
     User.findOne({ where: { instagram_id: profile.id } }).then((user) => {
       if (user) {
         // Update access token
         user.update({
           instagram_access_token: accessToken,
-        }).then(updatedUser => done(null, updatedUser.get()));
+        }).then((updatedUser) => {
+          // const token = authenticationUtils.createToken(updatedUser.get());
+          // console.log(token);
+          done(null, updatedUser.get());
+        });
       } else {
         const newUserdata = {
           instagram_id: profile.id,
@@ -136,7 +142,7 @@ module.exports = function (passport, user) {
             return done(null, false, { message: 'Something went wrong with your Instagram auth' });
           }
           if (newUser) {
-            return done(null, newUser);
+            return done(null, authenticationUtils.createToken(newUser));
           }
         });
       }
