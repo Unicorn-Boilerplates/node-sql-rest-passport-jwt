@@ -8,14 +8,7 @@ const shell = require("shelljs");
 const Sequelize = require('sequelize');
 
 const init = () => {
-  console.log(
-    chalk.green(
-      figlet.textSync("Setup Database", {
-        horizontalLayout: "default",
-        font: 'chunky',
-        verticalLayout: "default"
-      })
-    )
+  console.log('Setupd DB'
   );
 };
 
