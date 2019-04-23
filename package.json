@@ -8,7 +8,7 @@
     "monitor": "./node_modules/pm2/bin/pm2 monit",
     "pm2": "./node_modules/pm2/bin/pm2",
     "lint": "./node_modules/eslint/bin/eslint.js src",
-    "dev": "HTTP_PORT=80 HTTPS_PORT=8081 NODE_PATH=. NODE_ENV=development nodemon",
+    "dev": "DEBUG=express:* HTTP_PORT=80 HTTPS_PORT=8081 NODE_PATH=. NODE_ENV=development nodemon",
     "setup:database": "node cli/database.js"
   },
   "repository": "https://github.com/Unicorn-Boilerplates/node-sql-rest-passport-jwt.git",
@@ -19,6 +19,7 @@
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
     "eslint": "^5.11.1",
     "eslint-plugin-import": "^2.14.0",
     "express": "^4.16.4",

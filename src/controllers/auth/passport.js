@@ -2,7 +2,8 @@
 // load bcrypt
 const bCrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
-const secrets = require('./secret');
+const secrets = require('./../../../config/secret');
+const authenticationUtils = require('./../../utils/authenticationManager');
 
 
 module.exports = function (passport, user) {
@@ -31,7 +32,7 @@ module.exports = function (passport, user) {
   // Local Strategy: allows authentication with username and password
   passport.use('local-signup', new LocalStrategy(
     {
-      usernameField: 'email',
+      usernameField: 'username',
       passwordField: 'password',
       passReqToCallback: true, // allows us to pass back the entire request to the callback
     },
@@ -62,7 +63,11 @@ module.exports = function (passport, user) {
           }
 
           if (newUser) {
-            return done(null, newUser);
+            var returnUser = {
+              id: newUser.id,
+              token:  authenticationUtils.createToken(newUser),
+            }
+            return done(null, returnUser);
           }
         });
       });

@@ -2,6 +2,7 @@
 const express = require('express');
 const https = require('https');
 const http = require('http');
+const cors = require('cors')
 
 
 // AUTH
@@ -10,13 +11,31 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const cookie = require('cookie-parser');
-const passportConfiguration = require('./../config/passport.js');
+const passportConfiguration = require('./controllers/auth/passport.js');
 const models = require('./models');
 // INIT
 
 const app = express();
-app.use(cookie());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Auth setup
+
+var allowedOrigins = ['http://localhost:3000'];
+app.use(cors({
+  origin: function(origin, callback){
+    // allow requests with no origin 
+    // (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
+
+//app.use(cookie());
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); ;
 app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -93,19 +112,10 @@ routeManager.addRoute(app, 'get', '/auth/facebook/callback',
 routeManager.listRoutes();
 
 
+
 // Inject user model on passport
 passportConfiguration(passport, models.user.getDatabaseModel());
-app.use(require('serve-static')(`${__dirname}/../../public`));
-app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-}));
 
-
-// Auth setup
 
 
 // Setup error handling

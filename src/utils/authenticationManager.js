@@ -103,16 +103,19 @@ exports.checkScopes = checkScopes;
  * @param {object} user - A user info, as extracted from the database
  */
 function createToken(user) {
+  console.log('creating Token for:', user)
   let scopes = ['user'];
   if (user.isAdmin) {
     scopes = ['user', 'admin'];
   }
+  console.log('USER ID:', user.id)
   const payload = {
     sub: user.id,
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix(),
     scopes,
   };
+  console.log(payload,secrets.TOKEN_SECRET)
   return jwt.encode(payload, secrets.TOKEN_SECRET);
 }
 
