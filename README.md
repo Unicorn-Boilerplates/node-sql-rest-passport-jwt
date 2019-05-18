@@ -18,6 +18,7 @@ Boilerplate for serving rest API via Node, includes sql support and user authent
 - [ ] Express-status-monitor (Monitoring)
 - [x] Nodemon (Development productivity)
 - [ ] PM2 (Production serving)
+- [ ] Regenerate token when the token is expired
 
 
 ## Setup
