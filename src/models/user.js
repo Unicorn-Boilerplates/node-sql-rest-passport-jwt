@@ -2,9 +2,11 @@
 const Sequelize = require('sequelize');
 
 let db = null;
+
 function registerDatabaseModel(model) {
   db = model;
 }
+
 function getDatabaseModel() {
   return db;
 }
@@ -76,6 +78,7 @@ const schema = {
 function getUser(id) {
   return db.findOne({ where: { id } });
 }
+
 function getAllUsers() {
   return db.findAll();
 }

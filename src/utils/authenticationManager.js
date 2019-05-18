@@ -1,5 +1,3 @@
-
-
 const jwt = require('jwt-simple');
 const moment = require('moment');
 
@@ -17,12 +15,15 @@ const secrets = require('./../../config/secret');
  */
 function ensureAuthenticated(req, res, next) {
   let err;
+  console.log('received authentication request')
+  console.log('Test for Authorization', req.headers)
   if (!req.headers.authorization) {
     err = new Error();
     err.status = 401;
     err.message = 'Please make sure your request has an Authorization header';
     return next(err);
   }
+  console.log('Test for Beared')
   if (!/^Bearer .*$/.test(req.headers.authorization)) {
     err = new Error();
     err.status = 401;
@@ -37,6 +38,7 @@ function ensureAuthenticated(req, res, next) {
     err.message = 'Token has expired';
     return next(err);
   }
+  console.log('GOT HERE')
   req.user = payload.sub;
   req.scopes = payload.scopes;
   next();
@@ -75,7 +77,7 @@ exports.ensureAdmin = ensureAdmin;
  * @param {array} requiredScopes - An array of strings with the required scopes
  */
 function checkScopes(requiredScopes) {
-  return function (req, res, next) {
+  return function(req, res, next) {
     let authorized = true;
     if (req.scopes) {
       for (let j = 0; j < requiredScopes.length && authorized; j++) {
@@ -115,7 +117,7 @@ function createToken(user) {
     exp: moment().add(14, 'days').unix(),
     scopes,
   };
-  console.log(payload,secrets.TOKEN_SECRET)
+  console.log(payload, secrets.TOKEN_SECRET)
   return jwt.encode(payload, secrets.TOKEN_SECRET);
 }
 

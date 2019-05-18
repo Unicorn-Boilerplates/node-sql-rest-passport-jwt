@@ -1,4 +1,3 @@
-
 const express = require('express');
 const https = require('https');
 const http = require('http');
@@ -18,15 +17,15 @@ const models = require('./models');
 const app = express();
 // Auth setup
 
-var allowedOrigins = ['http://localhost:3000'];
+var allowedOrigins = ['http://localhost:8080'];
 app.use(cors({
-  origin: function(origin, callback){
+  origin: function(origin, callback) {
     // allow requests with no origin 
     // (like mobile apps or curl requests)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
       var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
+        'allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
     return callback(null, true);
@@ -35,7 +34,7 @@ app.use(cors({
 
 //app.use(cookie());
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); ;
+app.use(bodyParser.urlencoded({ extended: true }));;
 app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -63,6 +62,7 @@ routeManager.addRoute(app, 'get', '/user/:id/projects', user_controller.getUserP
 // Local auth routes
 routeManager.addRoute(app, 'get', '/signup', authController.signup);
 routeManager.addRoute(app, 'post', '/signup', passportLocalController.localSignUp);
+routeManager.addRoute(app, 'get', '/signin/token', authController.signInToken);
 routeManager.addRoute(app, 'get', '/signin', authController.signin);
 routeManager.addRoute(app, 'post', '/signin', passportLocalController.localSignIn);
 routeManager.addRoute(app, 'get', '/dashboard', authController.isLoggedIn, authController.dashboard);
