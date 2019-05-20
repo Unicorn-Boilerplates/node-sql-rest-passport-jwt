@@ -63,7 +63,7 @@ routeManager.addRoute(app, 'get', '/user/:id/projects', user_controller.getUserP
 routeManager.addRoute(app, 'get', '/signup', authController.signup);
 routeManager.addRoute(app, 'post', '/signup', passportLocalController.localSignUp);
 routeManager.addRoute(app, 'get', '/signin/token', authController.signInToken);
-routeManager.addRoute(app, 'get', '/signin', authController.signin);
+routeManager.addRoute(app, 'get', '/signin', passportLocalController.localSignIn);
 routeManager.addRoute(app, 'post', '/signin', passportLocalController.localSignIn);
 routeManager.addRoute(app, 'get', '/dashboard', authController.isLoggedIn, authController.dashboard);
 routeManager.addRoute(app, 'get', '/logout', authController.logout);

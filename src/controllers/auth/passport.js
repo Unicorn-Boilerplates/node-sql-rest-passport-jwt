@@ -6,7 +6,7 @@ const secrets = require('./../../../config/secret');
 const authenticationUtils = require('./../../utils/authenticationManager');
 
 
-module.exports = function (passport, user) {
+module.exports = function(passport, user) {
   const User = user;
   const LocalStrategy = require('passport-local').Strategy;
   const InstagramStrategy = require('passport-instagram').Strategy;
@@ -30,15 +30,14 @@ module.exports = function (passport, user) {
   });
 
   // Local Strategy: allows authentication with username and password
-  passport.use('local-signup', new LocalStrategy(
-    {
+  passport.use('local-signup', new LocalStrategy({
       usernameField: 'username',
       passwordField: 'password',
       passReqToCallback: true, // allows us to pass back the entire request to the callback
     },
 
     ((req, email, password, done) => {
-      const generateHash = function (password) {
+      const generateHash = function(password) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
 
@@ -65,7 +64,7 @@ module.exports = function (passport, user) {
           if (newUser) {
             var returnUser = {
               id: newUser.id,
-              token:  authenticationUtils.createToken(newUser),
+              token: authenticationUtils.createToken(newUser),
             }
             return done(null, returnUser);
           }
@@ -77,17 +76,16 @@ module.exports = function (passport, user) {
   ));
 
   // LOCAL SIGNIN
-  passport.use('local-signin', new LocalStrategy(
-    {
+  passport.use('local-signin', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
-      usernameField: 'email',
+      usernameField: 'username',
       passwordField: 'password',
       passReqToCallback: true, // allows us to pass back the entire request to the callback
     },
     ((req, email, password, done) => {
       console.log('Called signin');
       const User = user;
-      const isValidPassword = function (userpass, password) {
+      const isValidPassword = function(userpass, password) {
         return bCrypt.compareSync(password, userpass);
       };
 
@@ -117,42 +115,42 @@ module.exports = function (passport, user) {
   //   credentials (in this case, an accessToken, refreshToken, and Instagram
   //   profile), and invoke a callback with a user object.
   passport.use(new InstagramStrategy({
-    clientID: secrets.INSTAGRAM_CLIENT_ID,
-    clientSecret: secrets.INSTAGRAM_CLIENT_SECRET,
-    callbackURL: 'http://localhost/auth/instagram/callback',
-  },
-  ((accessToken, refreshToken, profile, done) => {
-    // asynchronous verification, for effect...
-    console.log(accessToken, profile);
-    User.findOne({ where: { instagram_id: profile.id } }).then((user) => {
-      if (user) {
-        // Update access token
-        user.update({
-          instagram_access_token: accessToken,
-        }).then((updatedUser) => {
-          // const token = authenticationUtils.createToken(updatedUser.get());
-          // console.log(token);
-          done(null, updatedUser.get());
-        });
-      } else {
-        const newUserdata = {
-          instagram_id: profile.id,
-          username: profile.username,
-          instagram_access_token: accessToken,
-        };
+      clientID: secrets.INSTAGRAM_CLIENT_ID,
+      clientSecret: secrets.INSTAGRAM_CLIENT_SECRET,
+      callbackURL: 'http://localhost/auth/instagram/callback',
+    },
+    ((accessToken, refreshToken, profile, done) => {
+      // asynchronous verification, for effect...
+      console.log(accessToken, profile);
+      User.findOne({ where: { instagram_id: profile.id } }).then((user) => {
+        if (user) {
+          // Update access token
+          user.update({
+            instagram_access_token: accessToken,
+          }).then((updatedUser) => {
+            // const token = authenticationUtils.createToken(updatedUser.get());
+            // console.log(token);
+            done(null, updatedUser.get());
+          });
+        } else {
+          const newUserdata = {
+            instagram_id: profile.id,
+            username: profile.username,
+            instagram_access_token: accessToken,
+          };
 
 
-        User.create(newUserdata).then((newUser, created) => {
-          if (!newUser) {
-            return done(null, false, { message: 'Something went wrong with your Instagram auth' });
-          }
-          if (newUser) {
-            return done(null, authenticationUtils.createToken(newUser));
-          }
-        });
-      }
-    });
-  })));
+          User.create(newUserdata).then((newUser, created) => {
+            if (!newUser) {
+              return done(null, false, { message: 'Something went wrong with your Instagram auth' });
+            }
+            if (newUser) {
+              return done(null, authenticationUtils.createToken(newUser));
+            }
+          });
+        }
+      });
+    })));
   // Use the FacebookStrategy within Passport.
   // The Facebook authentication strategy authenticates users using a Facebook account and OAuth 2.0 tokens.
   // The app ID and secret obtained when creating an application are supplied as options when creating the strategy.
@@ -160,44 +158,44 @@ module.exports = function (passport, user) {
   // as well as profile which contains the authenticated user's Facebook profile. The verify callback must call
   // cb providing a user to complete authentication.
   passport.use(new FacebookStrategy({
-    clientID: secrets.FACEBOOK_APP_ID,
-    clientSecret: secrets.FACEBOOK_APP_SECRET,
-    callbackURL: 'http://localhost/auth/facebook/callback',
-    graphApiVersion: 'v3.2',
-    enableProof: true,
-  },
-  ((accessToken, refreshToken, profile, done) => {
-    console.log(profile, accessToken, refreshToken);
-    User.findOne({ where: { facebook_id: profile.id } }).then((user) => {
-      if (user) {
-        console.log(user);
-        // Update access token
-        user.update({
-          facebook_access_token: accessToken,
-        }).then(updatedUser => done(null, updatedUser.get()));
-      } else {
-        const newUserdata = {
-          facebook_id: profile.id,
-          facebook_access_token: accessToken,
-          username: profile.displayName,
-        };
+      clientID: secrets.FACEBOOK_APP_ID,
+      clientSecret: secrets.FACEBOOK_APP_SECRET,
+      callbackURL: 'http://localhost/auth/facebook/callback',
+      graphApiVersion: 'v3.2',
+      enableProof: true,
+    },
+    ((accessToken, refreshToken, profile, done) => {
+      console.log(profile, accessToken, refreshToken);
+      User.findOne({ where: { facebook_id: profile.id } }).then((user) => {
+        if (user) {
+          console.log(user);
+          // Update access token
+          user.update({
+            facebook_access_token: accessToken,
+          }).then(updatedUser => done(null, updatedUser.get()));
+        } else {
+          const newUserdata = {
+            facebook_id: profile.id,
+            facebook_access_token: accessToken,
+            username: profile.displayName,
+          };
 
 
-        User.create(newUserdata).then((newUser, created) => {
-          if (!newUser) {
-            return done(null, false, { message: 'Something went wrong with your Instagram auth' });
-          }
-          if (newUser) {
-            console.log('couldnt create the new user');
-            return done(null, false, { message: 'Something went wrong with your Instagram auth' });
-          }
+          User.create(newUserdata).then((newUser, created) => {
+            if (!newUser) {
+              return done(null, false, { message: 'Something went wrong with your Instagram auth' });
+            }
+            if (newUser) {
+              console.log('couldnt create the new user');
+              return done(null, false, { message: 'Something went wrong with your Instagram auth' });
+            }
 
-          if (newUser) {
-            console.log('New USer');
-            return done(null, newUser);
-          }
-        });
-      }
-    });
-  })));
+            if (newUser) {
+              console.log('New USer');
+              return done(null, newUser);
+            }
+          });
+        }
+      });
+    })));
 };
